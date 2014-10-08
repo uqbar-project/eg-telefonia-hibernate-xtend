@@ -1,4 +1,4 @@
-package ar.edu.telefonia.home
+package ar.edu.telefonia
 
 import ar.edu.telefonia.domain.Abonado
 import ar.edu.telefonia.domain.Empresa
@@ -11,17 +11,18 @@ import org.hibernate.LazyInitializationException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import ar.edu.telefonia.repo.RepoTelefonia
 
-class TestHomeTelefonia {
+class TestTelefonia {
 
 	Abonado walterWhite
 	Abonado jessePinkman
-	HomeTelefonia homeTelefonia 
+	RepoTelefonia homeTelefonia 
 	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
 
 	@Before
 	def init() {
-		homeTelefonia = HomeTelefonia.instance
+		homeTelefonia = RepoTelefonia.instance
 		
 		walterWhite = new Residencial()
 		walterWhite.nombre = "Walter White"

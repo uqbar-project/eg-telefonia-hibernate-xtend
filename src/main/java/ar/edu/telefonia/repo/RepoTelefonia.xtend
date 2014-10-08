@@ -1,4 +1,4 @@
-package ar.edu.telefonia.home
+package ar.edu.telefonia.repo
 
 import ar.edu.telefonia.domain.Abonado
 import ar.edu.telefonia.domain.Empresa
@@ -11,16 +11,16 @@ import org.hibernate.SessionFactory
 import org.hibernate.cfg.AnnotationConfiguration
 import org.hibernate.criterion.Restrictions
 
-class HomeTelefonia {
+class RepoTelefonia {
 
-	private static HomeTelefonia instance = null
+	private static RepoTelefonia instance = null
 	
 	private new() {
 	}
 	
 	static def getInstance() {
 		if (instance == null) {
-			instance = new HomeTelefonia
+			instance = new RepoTelefonia
 		}
 		instance
 	}
