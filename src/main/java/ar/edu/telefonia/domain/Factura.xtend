@@ -6,7 +6,9 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Entity
 class Factura {
 	// los getters y setters que se generan con @Property hay 

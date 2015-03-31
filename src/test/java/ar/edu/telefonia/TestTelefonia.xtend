@@ -11,18 +11,18 @@ import org.hibernate.LazyInitializationException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import ar.edu.telefonia.repo.RepoTelefonia
+import ar.edu.telefonia.home.HomeTelefonia
 
 class TestTelefonia {
 
 	Abonado walterWhite
 	Abonado jessePinkman
-	RepoTelefonia homeTelefonia 
+	HomeTelefonia homeTelefonia 
 	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
 
 	@Before
 	def init() {
-		homeTelefonia = RepoTelefonia.instance
+		homeTelefonia = HomeTelefonia.instance
 		
 		walterWhite = new Residencial()
 		walterWhite.nombre = "Walter White"

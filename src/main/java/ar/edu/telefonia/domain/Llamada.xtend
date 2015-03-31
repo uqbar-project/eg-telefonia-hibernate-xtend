@@ -5,7 +5,9 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Entity
 class Llamada {
 	private Long id

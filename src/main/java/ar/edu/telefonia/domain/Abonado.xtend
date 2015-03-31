@@ -14,15 +14,20 @@ import javax.persistence.Id
 import javax.persistence.Inheritance
 import javax.persistence.InheritanceType
 import javax.persistence.OneToMany
+import javax.persistence.Transient
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.commons.utils.Observable
 
+@Observable
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="TIPO_ABONADO", discriminatorType=DiscriminatorType.STRING)
+@Accessors
 abstract class Abonado {
 	private Long id
 	// Funcionan ok las properties de xtend + column de hibernate si no es id o colección
-	@Column @Property private String nombre
-	@Column @Property private String numero
+	@Column private String nombre
+	@Column private String numero
 	private List<Factura> facturas
 	private List<Llamada> llamadas
 
@@ -131,6 +136,9 @@ abstract class Abonado {
 		facturas.add(factura)
 	}
 
+	@Transient
+	abstract def String getDatosEspecificos()
+
 	/**
 	 *************************************************************************
 	 *  EXTENSION METHODS
@@ -152,6 +160,11 @@ class Residencial extends Abonado {
 
 	override def costo(Llamada llamada) {
 		2 * llamada.duracion
+	}
+
+	@Transient
+	override getDatosEspecificos() {
+		"Residencial"
 	}
 
 }
@@ -192,6 +205,11 @@ class Rural extends Abonado {
 
 	override def costo(Llamada llamada) {
 		3 * llamada.duracion.max(new Integer(5))
+	}
+
+	@Transient
+	override getDatosEspecificos() {
+		"Rural (" + cantidadHectareas + " has)"
 	}
 
 }
@@ -238,5 +256,10 @@ class Empresa extends Abonado {
 	override def esMoroso() {
 		facturas.size > 3
 	}
+
+	@Transient
+	override getDatosEspecificos() {
+		"Empresa (" + cuit + ")"
+	}	
 
 }
