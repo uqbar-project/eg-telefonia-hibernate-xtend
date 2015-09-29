@@ -5,14 +5,23 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
 
 @Observable
+@Accessors
 @Entity
 class Llamada {
+	@Id @GeneratedValue
 	private Long id
+	
+	@ManyToOne
 	private Abonado origen
+	
+	@ManyToOne
 	private Abonado destino
+	
+	@Column
 	private Integer duracion
 
 	/**
@@ -20,42 +29,6 @@ class Llamada {
 	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
 	 *************************************************************
 	 */
-	@Id @GeneratedValue
-	def Long getId() {
-		id
-	}
-	
-	@ManyToOne 
-	def Abonado getOrigen() {
-		origen	
-	}
-	
-	@ManyToOne
-	def Abonado getDestino() {
-		destino
-	}
-	
-	@Column 
-	def Integer getDuracion() {
-		duracion
-	}
-	
-	def setId(Long unId) {
-		id = unId
-	}
-	
-	def setOrigen(Abonado unOrigen) {
-		origen = unOrigen
-	}
-	
-	def setDestino(Abonado unDestino) {
-		destino = unDestino
-	}
-	
-	def setDuracion(Integer unaDuracion) {
-		duracion = unaDuracion
-	}
-
 	new() {
 		
 	}

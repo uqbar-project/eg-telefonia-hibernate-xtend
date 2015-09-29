@@ -13,9 +13,16 @@ import org.uqbar.commons.utils.Observable
 class Factura {
 	// los getters y setters que se generan con @Property hay 
 	// que sobreescribirlos, por eso faltan las annotations
+  	@Id	@GeneratedValue
   	private Long id
+	
+	@Column
 	private Date fecha
+	
+	@Column
 	private BigDecimal totalPagado
+	
+	@Column
 	private BigDecimal total
 
 	/**
@@ -23,42 +30,9 @@ class Factura {
 	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
 	 *************************************************************
 	 */
-	@Id	@GeneratedValue def getId() { 
-		id
-	}
-	
-	@Column def getFecha() { 
-		fecha
-	}
-	
-	@Column def getTotalPagado() { 
-		totalPagado
-	}
-	
-	@Column def getTotal() { 
-		total
-	}
-	
-	def void setId(Long unId) {
-		id = unId
-	} 
-	
-
-	def setFecha(Date unaFecha) { 
-		fecha = unaFecha
-	}
-	
-	def setTotalPagado(BigDecimal unTotalPagado) { 
-		totalPagado = unTotalPagado
-	}
-	
-	def setTotal(BigDecimal unTotal) { 
-		total = unTotal
-	}
 
 	/** Constructor que necesita Hibernate */	
 	new() {
-		
 	}
 	
 	/**
