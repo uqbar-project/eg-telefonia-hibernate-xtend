@@ -31,7 +31,7 @@ Lo que deben hacer es modificar la dependencia del pom del proyecto de Arena, do
 </dependency>
 ```
 
-o la versión que quieras (en git es la versión de trabajo vs. la que está deployada en los repositorios).
+o la versión que estés trabajando vos (puede ser la 1.0.2-SNAPSHOT, fijate en el pom.xml de tu proyecto local).
 
 ## Configuraciones
 Previamente, entrá al recurso hibernate.cfg.xml (Ctrl + Shift + R > tipeá hibernate y te aparece) y 
