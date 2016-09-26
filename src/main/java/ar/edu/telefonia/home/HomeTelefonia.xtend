@@ -10,7 +10,7 @@ import ar.edu.telefonia.domain.Rural
 import java.util.List
 import org.hibernate.HibernateException
 import org.hibernate.SessionFactory
-import org.hibernate.cfg.AnnotationConfiguration
+import org.hibernate.cfg.Configuration
 import org.hibernate.criterion.Restrictions
 
 class HomeTelefonia {
@@ -27,7 +27,7 @@ class HomeTelefonia {
 		instance
 	}
 	
-	private static final SessionFactory sessionFactory = new AnnotationConfiguration()
+	private static final SessionFactory sessionFactory = new Configuration()
 			.configure()
 			.addAnnotatedClass(Factura)
 			.addAnnotatedClass(Residencial)

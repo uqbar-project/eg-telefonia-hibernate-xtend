@@ -1,45 +1,45 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<artifactId>telefonia-hibernate-xtend</artifactId>
 	<version>1.0.1</version>
 
 	<parent>
 		<groupId>org.uqbar-project</groupId>
-		<artifactId>uqbar-examples-xtend-parent</artifactId>
-		<version>2.7.3</version>
+		<artifactId>uqbar-xtend-parent</artifactId>
+		<version>2.9.1</version>
 	</parent>
 
+	<!-- Dependencias de Hibernate y de conexión a la base de datos -->
 	<dependencies>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>uqbar-domain</artifactId>
+			<version>3.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.6.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.1.2.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.35</version>
-		</dependency>
-		<dependency>
-			<groupId>org.uqbar-project</groupId>
-			<artifactId>uqbar-domain</artifactId>
-			<version>3.5.1</version>
+			<version>5.1.39</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -19,7 +19,7 @@
 			root
 		</property>
 		<property name="hibernate.connection.password">
-			laura
+			laurita
 		</property>
 
 		<property name="show_sql">true</property>
