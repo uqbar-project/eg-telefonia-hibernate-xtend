@@ -1,12 +1,20 @@
 # Telefonía
 
+## Prerrequisitos
+Necesitás instalar un motor de base de datos relacional (te recomendamos [MySQL](https://www.mysql.com/) que es OpenSource y gratuito)
+
 ## Objetivo
 El ejemplo de [abonados de una empresa telefónica](https://sites.google.com/site/utndesign/material/guia-de-ejercicios/guia-modelado-datos/orm_telefonia) muestra cómo mapear relaciones de herencia, one-to-many y many-to-one en Hibernate.
 
 ## Cómo correrlo
 
-* BASE DE DATOS: En MySQL, crear una base de datos telefonia.
-* SOLUCION: En Xtend. Cuenta con JUnit tests para probar el dominio en forma aislada
+* **Base de datos**: En MySQL, crear una base de datos telefonia.
+
+``` sql
+CREATE SCHEMA telefonia;
+```
+
+* **Solución en Xtend**: cuenta con JUnit tests para probar el dominio en forma aislada
  * Se puede integrar con el proyecto telefonia-ui-arena-xtend (para dar de alta, editar, eliminar y buscar)
 
 Lo que deben hacer es modificar la dependencia del pom del proyecto de Arena, donde dice
