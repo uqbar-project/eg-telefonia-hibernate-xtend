@@ -15,7 +15,7 @@ import javax.persistence.InheritanceType
 import javax.persistence.OneToMany
 import javax.persistence.Transient
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.commons.utils.Observable
+import org.uqbar.commons.model.annotations.Observable
 
 @Observable
 @Entity

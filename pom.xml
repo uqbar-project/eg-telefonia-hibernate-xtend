@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>telefonia-hibernate-xtend</artifactId>
-	<version>1.0.1</version>
+	<artifactId>eg-telefonia-hibernate-xtend</artifactId>
+	<version>1.0.2</version>
 
 	<parent>
 		<groupId>org.uqbar-project</groupId>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.uqbar-project</groupId>
 			<artifactId>uqbar-domain</artifactId>
-			<version>3.6.1</version>
+			<version>3.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
