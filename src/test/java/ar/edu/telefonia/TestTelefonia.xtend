@@ -6,34 +6,34 @@ import ar.edu.telefonia.domain.Factura
 import ar.edu.telefonia.domain.Llamada
 import ar.edu.telefonia.domain.Residencial
 import ar.edu.telefonia.domain.Rural
-import java.util.Date
+import ar.edu.telefonia.home.RepoTelefonia
+import java.time.LocalDate
 import org.hibernate.LazyInitializationException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import ar.edu.telefonia.home.HomeTelefonia
 
 class TestTelefonia {
 
 	Abonado walterWhite
 	Abonado jessePinkman
-	HomeTelefonia homeTelefonia 
+	RepoTelefonia homeTelefonia 
 	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
 
 	@Before
 	def init() {
-		homeTelefonia = HomeTelefonia.instance
+		homeTelefonia = RepoTelefonia.instance
 		
 		walterWhite = new Residencial()
 		walterWhite.nombre = "Walter White"
 		walterWhite.numero = "46710080"
-		walterWhite.agregarFactura(new Factura(new Date(10, 1, 109), 500, 240))
-		walterWhite.agregarFactura(new Factura(new Date(10, 1, 111), 1200, 600))
+		walterWhite.agregarFactura(new Factura(LocalDate.of(2009, 2, 10), 500, 240))
+		walterWhite.agregarFactura(new Factura(LocalDate.of(2011, 3, 8), 1200, 600))
 
 		jessePinkman = new Rural(100)
 		jessePinkman.nombre = "Jesse Pinkman"
 		jessePinkman.numero = "45673887"
-		jessePinkman.agregarFactura(new Factura(new Date(5, 5, 113), 1200, 1200))
+		jessePinkman.agregarFactura(new Factura(LocalDate.of(2013, 6, 5), 1200, 1200))
 
 		var Abonado ibm = new Empresa("30-50396126-8")
 		ibm.nombre = "IBM"
@@ -62,7 +62,7 @@ class TestTelefonia {
 	}
 
 	def createIfNotExists(Abonado abonado) {
-		val existe = homeTelefonia.getAbonado(abonado) != null
+		val existe = homeTelefonia.getAbonado(abonado) !== null
 		if (!existe) {
 			homeTelefonia.actualizarAbonado(abonado)
 		}

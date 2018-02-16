@@ -13,16 +13,16 @@ import org.hibernate.SessionFactory
 import org.hibernate.cfg.Configuration
 import org.hibernate.criterion.Restrictions
 
-class HomeTelefonia {
+class RepoTelefonia {
 
-	private static HomeTelefonia instance = null
+	private static RepoTelefonia instance = null
 	
 	private new() {
 	}
 	
 	static def getInstance() {
-		if (instance == null) {
-			instance = new HomeTelefonia
+		if (instance === null) {
+			instance = new RepoTelefonia
 		}
 		instance
 	}

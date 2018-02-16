@@ -1,5 +1,8 @@
 # Telefonía
 
+![Travis](https://travis-ci.org/uqbar-project/eg-telefonia-hibernate-xtend.svg?branch=master)  [![Coverage Status](https://coveralls.io/repos/github/uqbar-project/eg-telefonia-hibernate-xtend/badge.svg?branch=master&service=github)](https://coveralls.io/github/uqbar-project/eg-telefonia-hibernate-xtend?branch=master&service=github)
+
+
 ## Prerrequisitos
 Necesitás instalar un motor de base de datos relacional (te recomendamos [MySQL](https://www.mysql.com/) que es OpenSource y gratuito)
 
@@ -58,4 +61,4 @@ para que apunte allí:
 
 ## Diagrama de entidad-relación
 
-![Solución](docs/DER telefonia.png)
+![Solución](docs/DER.png)

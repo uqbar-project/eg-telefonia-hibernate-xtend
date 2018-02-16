@@ -1,11 +1,11 @@
 package ar.edu.telefonia.appModel
 
 import ar.edu.telefonia.domain.Abonado
-import ar.edu.telefonia.home.HomeTelefonia
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
+import ar.edu.telefonia.home.RepoTelefonia
 
 @Observable
 @Accessors
@@ -20,7 +20,7 @@ class BuscarAbonadoAppModel {
 	}
 	
 	def void buscar() {
-		abonados = HomeTelefonia.instance.getAbonados(busquedaAbonados)
+		abonados = RepoTelefonia.instance.getAbonados(busquedaAbonados)
 	}
 	
 	def void limpiar() {
@@ -30,7 +30,7 @@ class BuscarAbonadoAppModel {
 	}
 	
 	def eliminarAbonado() {
-		HomeTelefonia.instance.eliminarAbonado(abonadoSeleccionado)
+		RepoTelefonia.instance.eliminarAbonado(abonadoSeleccionado)
 		this.buscar
 	}
 	

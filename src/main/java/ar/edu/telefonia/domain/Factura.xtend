@@ -1,6 +1,7 @@
 package ar.edu.telefonia.domain
 
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.util.Date
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -17,7 +18,7 @@ class Factura {
   	private Long id
 	
 	@Column
-	private Date fecha
+	private LocalDate fecha
 	
 	@Column
 	private BigDecimal totalPagado
@@ -41,10 +42,10 @@ class Factura {
 	 *************************************************************
 	 */
 	
-	new(Date unaFecha, int elTotalPagado, int elTotal) {
-	  fecha = unaFecha
-	  totalPagado = new BigDecimal(elTotalPagado)
-	  total = new BigDecimal(elTotal)
+	new(LocalDate _fecha, int _totalPagado, int _total) {
+	  fecha = _fecha
+	  totalPagado = new BigDecimal(_totalPagado)
+	  total = new BigDecimal(_total)
 	}
 
 	def saldo() { 
