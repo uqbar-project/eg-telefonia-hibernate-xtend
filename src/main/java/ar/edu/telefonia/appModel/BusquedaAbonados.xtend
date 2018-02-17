@@ -27,11 +27,11 @@ class BusquedaAbonados {
 	}
 
 	def ingresoNombreDesde() {
-		nombreDesde != null && !nombreDesde.equals("")
+		nombreDesde !== null && !nombreDesde.equals("")
 	}
 
 	def ingresoNombreHasta() {
-		nombreHasta != null && !nombreHasta.equals("")
+		nombreHasta !== null && !nombreHasta.equals("")
 	}
 
 }
