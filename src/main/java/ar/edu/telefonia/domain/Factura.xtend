@@ -11,59 +11,41 @@ import org.uqbar.commons.model.annotations.Observable
 @Observable
 @Entity
 class Factura {
-	// los getters y setters que se generan con @Property hay 
-	// que sobreescribirlos, por eso faltan las annotations
-  	@Id	@GeneratedValue
-  	private Long id
-	
+
+	@Id @GeneratedValue
+	private Long id
+
 	@Column
 	private LocalDate fecha
-	
+
 	@Column
 	private BigDecimal totalPagado
-	
+
 	@Column
 	private BigDecimal total
 
 	/**
 	 * ***********************************************************
 	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
-	 *************************************************************
+	 * ************************************************************
 	 */
-
-	/** Constructor que necesita Hibernate */	
+	/** Constructor que necesita Hibernate */
 	new() {
 	}
-	
+
 	/**
 	 * ***********************************************************
 	 *        FIN EXTRAS MANUALES QUE NECESITA HIBERNATE         *
-	 *************************************************************
+	 * ************************************************************
 	 */
-	
 	new(LocalDate _fecha, int _totalPagado, int _total) {
-	  fecha = _fecha
-	  totalPagado = new BigDecimal(_totalPagado)
-	  total = new BigDecimal(_total)
+		fecha = _fecha
+		totalPagado = new BigDecimal(_totalPagado)
+		total = new BigDecimal(_total)
 	}
 
-	def saldo() { 
+	def saldo() {
 		totalPagado.subtract(total)
 	}
-	
-	override equals(Object obj) {
-		if (id === null) return super.equals(obj)
-		try {
-			val otro = obj as Factura
-			return otro.id === id		
-		} catch (ClassCastException e) {
-			return false
-		}
-	}
-	
-	override hashCode() {
-		if (id === null) return super.hashCode()
-		id.hashCode
-	}	
-	
+
 }
