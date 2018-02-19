@@ -1,6 +1,7 @@
 package ar.edu.telefonia.domain
 
 import java.util.List
+import java.util.Set
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.DiscriminatorColumn
@@ -27,7 +28,7 @@ abstract class Abonado {
 	@Column private String nombre
 	@Column private String numero
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Factura> facturas
+	private Set<Factura> facturas
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Llamada> llamadas
 
@@ -38,7 +39,7 @@ abstract class Abonado {
 	 */
 	/** Constructor que necesita Hibernate */
 	new() {
-		facturas = newArrayList
+		facturas = newHashSet
 		llamadas = newArrayList
 	}
 

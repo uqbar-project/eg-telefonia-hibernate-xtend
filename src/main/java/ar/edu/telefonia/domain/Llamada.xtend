@@ -44,5 +44,20 @@ class Llamada {
 		destino = unDestino
 		duracion = unaDuracion
 	}
+
+	override equals(Object obj) {
+		if (id === null) return super.equals(obj)
+		try {
+			val otro = obj as Abonado
+			return otro.id === id		
+		} catch (ClassCastException e) {
+			return false
+		}
+	}
+	
+	override hashCode() {
+		if (id === null) return super.hashCode()
+		id.hashCode
+	}
 	
 }

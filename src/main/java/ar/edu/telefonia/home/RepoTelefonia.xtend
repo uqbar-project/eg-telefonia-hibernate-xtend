@@ -2,120 +2,124 @@ package ar.edu.telefonia.home
 
 import ar.edu.telefonia.appModel.BusquedaAbonados
 import ar.edu.telefonia.domain.Abonado
-import ar.edu.telefonia.domain.Empresa
-import ar.edu.telefonia.domain.Factura
-import ar.edu.telefonia.domain.Llamada
-import ar.edu.telefonia.domain.Residencial
-import ar.edu.telefonia.domain.Rural
 import java.util.List
-import org.hibernate.HibernateException
-import org.hibernate.SessionFactory
-import org.hibernate.cfg.Configuration
-import org.hibernate.criterion.Restrictions
+import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
+import javax.persistence.Persistence
+import javax.persistence.PersistenceException
+import javax.persistence.criteria.JoinType
+import javax.persistence.NoResultException
 
 class RepoTelefonia {
 
 	private static RepoTelefonia instance = null
-	
+
 	private new() {
 	}
-	
+
 	static def getInstance() {
 		if (instance === null) {
 			instance = new RepoTelefonia
 		}
 		instance
 	}
-	
-	private static final SessionFactory sessionFactory = new Configuration()
-			.configure()
-			.addAnnotatedClass(Factura)
-			.addAnnotatedClass(Residencial)
-			.addAnnotatedClass(Rural)
-			.addAnnotatedClass(Empresa)
-			.addAnnotatedClass(Abonado)
-			.addAnnotatedClass(Llamada)
-			.buildSessionFactory()
+
+	private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
+
+	def getEntityManager() {
+		entityManagerFactory.createEntityManager
+	}
 
 	def getAbonado(Abonado abonado) {
 		getAbonado(abonado, false)
 	}
 
 	def getAbonado(Abonado unAbonado, boolean full) {
-		val session = sessionFactory.openSession
+		val entityManager = this.entityManager
 		try {
-			var result = session.createCriteria(Abonado)
-				.add(Restrictions.eq("nombre", unAbonado.nombre))
-				.list()
-
-			if (result.isEmpty) {
-				null
-			} else {
-				var abonado = result.get(0) as Abonado
-				if (full) {
-					abonado.facturas.size()
-					abonado.llamadas.size()
-				}
-				abonado
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(typeof(Abonado))
+			val from = query.from(Abonado)
+			query.select(from)
+			query.where(criteria.equal(from.get("nombre"), unAbonado.nombre))
+			/**
+			 * si indicamos qué tipo de fetch debemos hacer
+			 * esto no funciona bien con varias listas a la vez, una pena
+			if (full) {
+				from.fetch("facturas", JoinType.LEFT)
+				from.fetch("llamadas", JoinType.LEFT)
 			}
-		} catch (HibernateException e) {
-			throw new RuntimeException(e)
+			* 
+			*/
+			try {
+				val abonado = entityManager.createQuery(query).singleResult
+				if (full) {
+					abonado.llamadas.size
+					abonado.facturas.size
+				}
+				return abonado
+			} catch (NoResultException e) {
+				return null
+			}
 		} finally {
-			session.close
+			entityManager.close
 		}
 	}
 
-	def actualizarAbonado(Abonado abonado) {
-		val session = sessionFactory.openSession
-		try {
-			session.beginTransaction
-			session.saveOrUpdate(abonado)
-			session.getTransaction.commit
-		} catch (HibernateException e) {
-			session.getTransaction.rollback
-			throw new RuntimeException(e)
-		} finally {
-			session.close
-		}
+	/**
+	 * Para actualizar o eliminar como la base es similar, lo que hacemos es 
+	 * pasar un closure (un command) que se construye con un objeto bloque de Xtend.
+	 * También podríamos construir una clase con una interfaz execute(EntityManager, Abonado)
+	 * pero esto es menos burocrático.
+	 */
+	def void actualizarAbonado(Abonado abonado) {
+		doInTransaction(abonado, [EntityManager em, Abonado _abonado|em.merge(_abonado)])
 	}
-	
+
+	def void eliminarAbonado(Abonado abonado) {
+		doInTransaction(abonado, [EntityManager em, Abonado _abonado|em.remove(_abonado)])
+	}
+
 	def List<Abonado> getAbonados(BusquedaAbonados busquedaAbonados) {
-		val session = sessionFactory.openSession
+		val entityManager = this.entityManager
 		try {
-			// Restricción Dummy - todos los registros tienen id
-			val criteria = session.createCriteria(Abonado)
-				.add(Restrictions.isNotNull("id"))
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(typeof(Abonado))
+			val from = query.from(Abonado)
+			query.select(from)
 			if (busquedaAbonados.ingresoNombreDesde) {
-				criteria.add(Restrictions.ge("nombre", busquedaAbonados.nombreDesde))
-			} 
+				query.where(criteria.greaterThan(from.get("nombre"), busquedaAbonados.nombreDesde))
+			}
 			if (busquedaAbonados.ingresoNombreHasta) {
-				criteria.add(Restrictions.le("nombre", busquedaAbonados.nombreHasta))
-			} 
+				query.where(criteria.lessThan(from.get("nombre"), busquedaAbonados.nombreHasta))
+			}
+			val List<Abonado> abonados = entityManager.createQuery(query).resultList
 			// Estrategia híbrida
 			// La búsqueda por nombre desde/hasta se hace contra la base
 			// El filtro de morosidad se hace posteriormente: si tenemos 5M de clientes no es una buena
 			// estrategia, hay que pensar en llevar la abstracción "moroso" a la consulta
 			// opciones: 1) incluir en la consulta un sum(saldo) de facturas, 2) armar un stored procedure
-			criteria.list().filter [ abonado | busquedaAbonados.cumple(abonado) ].toList()
-		} catch (HibernateException e) {
-			throw new RuntimeException(e)
+			return abonados.filter[Abonado abonado|busquedaAbonados.cumple(abonado)].toList()
 		} finally {
-			session.close
+			entityManager.close
 		}
 	}
-	
-	def eliminarAbonado(Abonado abonado) {
-		val session = sessionFactory.openSession
+
+	def void doInTransaction(Abonado abonado, (EntityManager, Abonado)=>void operation) {
+		val entityManager = this.entityManager
 		try {
-			session.beginTransaction
-			session.delete(abonado)
-			session.getTransaction.commit
-		} catch (HibernateException e) {
-			session.getTransaction.rollback
-			throw new RuntimeException(e)
+			entityManager => [
+				transaction.begin
+				operation.apply(it, abonado)
+				transaction.commit
+			]
+		} catch (PersistenceException e) {
+			e.printStackTrace
+			entityManager.transaction.rollback
+			throw new RuntimeException("Ha ocurrido un error. La operación no puede completarse.", e)
 		} finally {
-			session.close
+			entityManager.close
 		}
 	}
-	
+
 }
