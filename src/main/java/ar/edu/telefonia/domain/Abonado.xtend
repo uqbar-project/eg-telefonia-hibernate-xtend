@@ -28,7 +28,7 @@ abstract class Abonado {
 	@Column private String nombre
 	@Column private String numero
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private Set<Factura> facturas
+	private List<Factura> facturas
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Llamada> llamadas
 
@@ -39,7 +39,7 @@ abstract class Abonado {
 	 */
 	/** Constructor que necesita Hibernate */
 	new() {
-		facturas = newHashSet
+		facturas = newArrayList
 		llamadas = newArrayList
 	}
 

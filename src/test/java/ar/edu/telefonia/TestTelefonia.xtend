@@ -85,7 +85,6 @@ class TestTelefonia {
 	@Test
 	def void deudaDeWalterWhite() {
 		val walterWhiteBD = homeTelefonia.getAbonado(walterWhite, true)
-		println(walterWhite.facturas)
 		Assert.assertEquals(860, walterWhiteBD.deuda, 0.1)
 	}
 
