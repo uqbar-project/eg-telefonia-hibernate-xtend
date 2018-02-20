@@ -5,10 +5,9 @@ import ar.edu.telefonia.domain.Abonado
 import java.util.List
 import javax.persistence.EntityManager
 import javax.persistence.EntityManagerFactory
+import javax.persistence.NoResultException
 import javax.persistence.Persistence
 import javax.persistence.PersistenceException
-import javax.persistence.criteria.JoinType
-import javax.persistence.NoResultException
 
 class RepoTelefonia {
 

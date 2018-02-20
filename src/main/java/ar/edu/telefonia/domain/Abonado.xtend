@@ -1,7 +1,6 @@
 package ar.edu.telefonia.domain
 
 import java.util.List
-import java.util.Set
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.DiscriminatorColumn
