@@ -1,6 +1,6 @@
 # Telefonía
 
-![Travis](https://travis-ci.org/uqbar-project/eg-telefonia-hibernate-xtend.svg?branch=jpa)  [![Coverage Status](https://coveralls.io/repos/github/uqbar-project/eg-telefonia-hibernate-xtend/badge.svg?branch=jpa&service=github)](https://coveralls.io/github/uqbar-project/eg-telefonia-hibernate-xtend?branch=jpa&service=github)
+[![Build Status](https://travis-ci.org/uqbar-project/eg-telefonia-hibernate-xtend.svg?branch=jpa)](https://travis-ci.org/uqbar-project/eg-telefonia-hibernate-xtend)  [![Coverage Status](https://coveralls.io/repos/github/uqbar-project/eg-telefonia-hibernate-xtend/badge.svg?branch=jpa&service=github)](https://coveralls.io/github/uqbar-project/eg-telefonia-hibernate-xtend?branch=jpa&service=github)
 
 
 ## Prerrequisitos
