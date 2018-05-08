@@ -6,7 +6,7 @@ import ar.edu.telefonia.domain.Factura
 import ar.edu.telefonia.domain.Llamada
 import ar.edu.telefonia.domain.Residencial
 import ar.edu.telefonia.domain.Rural
-import ar.edu.telefonia.home.RepoTelefonia
+import ar.edu.telefonia.repo.RepoTelefonia
 import java.time.LocalDate
 import org.hibernate.LazyInitializationException
 import org.junit.Assert

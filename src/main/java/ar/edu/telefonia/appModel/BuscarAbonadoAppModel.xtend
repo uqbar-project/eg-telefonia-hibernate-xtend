@@ -5,7 +5,7 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
-import ar.edu.telefonia.home.RepoTelefonia
+import ar.edu.telefonia.repo.RepoTelefonia
 
 /**
  * Modelo de la vista de la búsqueda de abonados
