@@ -62,7 +62,8 @@ class TestTelefonia {
 	}
 
 	def createIfNotExists(Abonado abonado) {
-		val existe = homeTelefonia.getAbonado(abonado) !== null
+		val reultados = homeTelefonia.searchByExample(abonado,true)
+		val existe = !reultados.isEmpty
 		if (!existe) {
 			homeTelefonia.actualizarAbonado(abonado)
 		}

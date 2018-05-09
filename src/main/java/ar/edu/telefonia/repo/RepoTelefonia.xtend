@@ -7,9 +7,8 @@ import javax.persistence.EntityManager
 import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 import javax.persistence.PersistenceException
-import org.hibernate.HibernateException
-import org.hibernate.criterion.Restrictions
 import javax.persistence.criteria.Predicate
+import org.hibernate.HibernateException
 
 class RepoTelefonia {
 
@@ -27,35 +26,39 @@ class RepoTelefonia {
 
 	private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
 
-	def getAbonado(Abonado abonado) {
-		getAbonado(abonado, false)
-	}
-
-	def getAbonado(Abonado unAbonado, boolean full) {
+	def searchByExample(Abonado unAbonado, boolean full) {
 		val entityManager = entityManagerFactory.createEntityManager
-		if  (unAbonado.id === null)
-			return null
-		else {
-			
 		try {
-				var abonado = entityManager.find(entityType, unAbonado.id)
-
-				if (abonado === null) {
-					null
-				} else {
-					if (full) {
-						abonado.facturas.size()
-						abonado.llamadas.size()
-					}
-					abonado
-				}
-			} catch (HibernateException e) {
-				throw new RuntimeException(e)
-			} finally {
-				entityManager.close
+			val criteria = entityManager.criteriaBuilder
+			val query = criteria.createQuery(entityType)
+			val from = query.from(entityType)
+			query.select(from)
+			var List<Predicate> condiciones = newArrayList
+			condiciones.add(criteria.like(from.get("nombre"), "%" + unAbonado.nombre + "%"))
+			condiciones.add(criteria.equal(from.get("numero"), unAbonado.numero))
+			query.where(condiciones)
+			val lista = entityManager.createQuery(query).resultList
+			if (full) {
+				lista.forEach [ abonado | 
+					abonado.facturas.size()
+					abonado.llamadas.size()
+				]
 			}
-		}	
+			lista
+		} catch (HibernateException e) {
+			throw new RuntimeException(e)
+		} finally {
+			entityManager.close
+		}
 	}
+
+	def getAbonado(Abonado abonado, boolean full){
+		searchByExample(abonado, full).head
+	}
+	def getAbonado(Abonado abonado) {
+		searchByExample(abonado, false).head
+	}
+
 
 	def actualizarAbonado(Abonado abonado) {
 		val EntityManager entityManager = entityManagerFactory.createEntityManager
@@ -90,19 +93,15 @@ class RepoTelefonia {
 			}
 			query.where(condiciones)
 			entityManager.createQuery(query).resultList
-			// Estrategia híbrida
-			// La búsqueda por nombre desde/hasta se hace contra la base
-			// El filtro de morosidad se hace posteriormente: si tenemos 5M de clientes no es una buena
-			// estrategia, hay que pensar en llevar la abstracción "moroso" a la consulta
-			// opciones: 1) incluir en la consulta un sum(saldo) de facturas, 2) armar un stored procedure
-			//criteria.list().filter[abonado|busquedaAbonados.cumple(abonado)].toList()
 		} catch (HibernateException e) {
 			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
 		} finally {
 			entityManager.close
 		}
 	}
-	def getEntityType(){ typeof(Abonado)}
+
+	def getEntityType() { typeof(Abonado) }
+
 	def eliminarAbonado(Abonado abonado) {
 		val EntityManager entityManager = entityManagerFactory.createEntityManager
 		try {
