@@ -7,9 +7,11 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import org.uqbar.commons.model.annotations.Observable
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Observable
 @Entity
+@Accessors
 class Factura {
 	// los getters y setters que se generan con @Property hay 
 	// que sobreescribirlos, por eso faltan las annotations

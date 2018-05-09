@@ -21,7 +21,7 @@ class TestTelefonia {
 	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
 
 	@Before
-	def init() {
+	def void init() {
 		homeTelefonia = RepoTelefonia.instance
 		
 		walterWhite = new Residencial()
