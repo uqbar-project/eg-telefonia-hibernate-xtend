@@ -12,6 +12,8 @@ class BusquedaAbonados {
 	String nombreHasta
 	boolean soloMorosos
 	BigDecimal total
+	Integer minimoDeMinutos
+	
 
 	new() {
 		clear()
@@ -27,6 +29,9 @@ class BusquedaAbonados {
 		soloMorosos = false
 	}
 
+	def ingresoAlMenosMinimoDeMintos(){
+		minimoDeMinutos !== null && !minimoDeMinutos.equals(0)
+	}
 	def ingresoTotalExacto(){
 		total !== null 
 	}

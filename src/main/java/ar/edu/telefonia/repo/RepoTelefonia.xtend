@@ -10,6 +10,9 @@ import javax.persistence.PersistenceException
 import javax.persistence.criteria.Predicate
 import org.hibernate.HibernateException
 import javax.persistence.criteria.JoinType
+import org.hibernate.criterion.DetachedCriteria
+import ar.edu.telefonia.domain.Llamada
+import org.hibernate.criterion.Subqueries
 
 class RepoTelefonia {
 
@@ -101,9 +104,20 @@ class RepoTelefonia {
 			if (busquedaAbonados.ingresoNombreHasta) {
 				condiciones.add(criteria.lessThan(from.get("nombre"), busquedaAbonados.nombreHasta))
 			}
-			if (busquedaAbonados.ingresoTotalExacto){
+			if (busquedaAbonados.ingresoTotalExacto) {
 				val joinProducto = from.joinList("facturas", JoinType.LEFT)
 				condiciones.add(criteria.equal(joinProducto.get("total"), busquedaAbonados.total))
+			}
+			if (busquedaAbonados.ingresoAlMenosMinimoDeMintos) {
+ 				val subQuery = query.subquery(typeof(Llamada))
+ 				val subRoot = subQuery.from(typeof(Llamada))
+				subQuery.select(subRoot)
+				val project = from.join("llamadas");
+				val relationPredicate = criteria.equal(project, subRoot)
+				val durationPredicate = criteria.greaterThan(subRoot.get("duracion"), busquedaAbonados.minimoDeMinutos)
+				subQuery.select(subRoot).where(relationPredicate, durationPredicate)
+				condiciones.add(criteria.exists(subQuery))
+
 			}
 			query.where(condiciones)
 			val lista = entityManager.createQuery(query).resultList
@@ -115,7 +129,7 @@ class RepoTelefonia {
 				/*
 				 * Lógica mixta donde filtro los abonados morosos. La lógica de negocio se mantiene del
 				 * lado del dominio y no la paso del lado de la base de datos 
-				 */ 
+				 */
 				lista.filter[abonado|busquedaAbonados.cumple(abonado)].toList
 			}
 		} catch (HibernateException e) {

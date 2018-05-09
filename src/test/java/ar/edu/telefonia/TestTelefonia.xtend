@@ -105,5 +105,13 @@ class TestTelefonia {
 		Assert.assertEquals(walterWhite.id, abonados.head.id)
 		
 	}
+	@Test
+	def void walterWhiteTieneUnaLlamadaDeMasDe8Minutos(){
+		val busqueda = new BusquedaAbonados => [
+			minimoDeMinutos = 8
+		]
+		val abonados = homeTelefonia.getAbonados(busqueda)
+		Assert.assertEquals(walterWhite.id, abonados.head.id)		
+	}
 
 }
