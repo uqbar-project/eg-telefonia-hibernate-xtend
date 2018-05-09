@@ -16,8 +16,7 @@ class BusquedaAbonados {
 	}
 
 	def cumple(Abonado abonado) {
-		(!ingresoNombreDesde || abonado.nombre.toUpperCase >= nombreDesde.toUpperCase) &&
-			(!ingresoNombreHasta || abonado.nombre.toUpperCase <= nombreHasta.toUpperCase) && (abonado.esMoroso || !soloMorosos)
+		abonado.esMoroso || !soloMorosos
 	}
 
 	def clear() {

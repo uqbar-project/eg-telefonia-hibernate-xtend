@@ -102,7 +102,11 @@ class RepoTelefonia {
 					abonado.facturas.size()
 					abonado.llamadas.size()
 				]
-				lista
+				/*
+				 * Lógica mixta donde filtro los abonados morosos. La lógica de negocio se mantiene del
+				 * lado del dominio y no la paso del lado de la base de datos 
+				 */ 
+				lista.filter[abonado|busquedaAbonados.cumple(abonado)].toList
 			}
 		} catch (HibernateException e) {
 			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
