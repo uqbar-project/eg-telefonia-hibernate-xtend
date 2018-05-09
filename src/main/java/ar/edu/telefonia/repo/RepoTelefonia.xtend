@@ -9,6 +9,7 @@ import javax.persistence.Persistence
 import javax.persistence.PersistenceException
 import javax.persistence.criteria.Predicate
 import org.hibernate.HibernateException
+import javax.persistence.criteria.JoinType
 
 class RepoTelefonia {
 
@@ -65,6 +66,11 @@ class RepoTelefonia {
 		try {
 			entityManager => [
 				transaction.begin
+				/*
+				 * Esto es debido a que merge no 
+				 * funciona como persist. Por lo tanto no acutaliza el id 
+				 * si es que tuvo que insertar el registro en la tabla.
+				 */
 				abonado.id = merge(abonado).id
 				transaction.commit
 			]
@@ -94,6 +100,10 @@ class RepoTelefonia {
 			}
 			if (busquedaAbonados.ingresoNombreHasta) {
 				condiciones.add(criteria.lessThan(from.get("nombre"), busquedaAbonados.nombreHasta))
+			}
+			if (busquedaAbonados.ingresoTotalExacto){
+				val joinProducto = from.joinList("facturas", JoinType.LEFT)
+				condiciones.add(criteria.equal(joinProducto.get("total"), busquedaAbonados.total))
 			}
 			query.where(condiciones)
 			val lista = entityManager.createQuery(query).resultList

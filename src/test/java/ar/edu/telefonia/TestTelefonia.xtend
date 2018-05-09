@@ -12,6 +12,8 @@ import org.hibernate.LazyInitializationException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import ar.edu.telefonia.appModel.BusquedaAbonados
+import java.math.BigDecimal
 
 class TestTelefonia {
 
@@ -93,6 +95,15 @@ class TestTelefonia {
 	def void walterWhiteCostoDeLlamada1() {
 		val walterWhiteBD = homeTelefonia.getAbonado(walterWhite, true)
 		Assert.assertEquals(20, walterWhiteBD.costo(llamada1), 0.1)
+	}
+	@Test
+	def void walterWhiteTieneUnaFacturaDe600Pesos(){
+		val busqueda = new BusquedaAbonados => [
+			total = new BigDecimal(600)
+		]
+		val abonados = homeTelefonia.getAbonados(busqueda)
+		Assert.assertEquals(walterWhite.id, abonados.head.id)
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package ar.edu.telefonia.appModel
 import ar.edu.telefonia.domain.Abonado
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
+import java.math.BigDecimal
 
 @Observable
 @Accessors
@@ -10,6 +11,7 @@ class BusquedaAbonados {
 	String nombreDesde
 	String nombreHasta
 	boolean soloMorosos
+	BigDecimal total
 
 	new() {
 		clear()
@@ -25,6 +27,9 @@ class BusquedaAbonados {
 		soloMorosos = false
 	}
 
+	def ingresoTotalExacto(){
+		total !== null 
+	}
 	def ingresoNombreDesde() {
 		nombreDesde !== null && !nombreDesde.equals("")
 	}
