@@ -39,7 +39,7 @@ class RepoTelefonia {
 			query.where(condiciones)
 			val lista = entityManager.createQuery(query).resultList
 			if (full) {
-				lista.forEach [ abonado | 
+				lista.forEach [ abonado |
 					abonado.facturas.size()
 					abonado.llamadas.size()
 				]
@@ -52,13 +52,13 @@ class RepoTelefonia {
 		}
 	}
 
-	def getAbonado(Abonado abonado, boolean full){
+	def getAbonado(Abonado abonado, boolean full) {
 		searchByExample(abonado, full).head
 	}
+
 	def getAbonado(Abonado abonado) {
 		searchByExample(abonado, false).head
 	}
-
 
 	def actualizarAbonado(Abonado abonado) {
 		val EntityManager entityManager = entityManagerFactory.createEntityManager
@@ -78,6 +78,10 @@ class RepoTelefonia {
 	}
 
 	def List<Abonado> getAbonados(BusquedaAbonados busquedaAbonados) {
+		getAbonados(busquedaAbonados, true)
+	}
+
+	def List<Abonado> getAbonados(BusquedaAbonados busquedaAbonados, boolean full) {
 		val EntityManager entityManager = entityManagerFactory.createEntityManager
 		try {
 			val criteria = entityManager.criteriaBuilder
@@ -92,7 +96,14 @@ class RepoTelefonia {
 				condiciones.add(criteria.lessThan(from.get("nombre"), busquedaAbonados.nombreHasta))
 			}
 			query.where(condiciones)
-			entityManager.createQuery(query).resultList
+			val lista = entityManager.createQuery(query).resultList
+			if (full) {
+				lista.forEach [ abonado |
+					abonado.facturas.size()
+					abonado.llamadas.size()
+				]
+				lista
+			}
 		} catch (HibernateException e) {
 			throw new RuntimeException("Ocurrió un error, la operación no puede completarse", e)
 		} finally {
