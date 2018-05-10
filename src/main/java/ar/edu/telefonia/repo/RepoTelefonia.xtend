@@ -2,17 +2,15 @@ package ar.edu.telefonia.repo
 
 import ar.edu.telefonia.appModel.BusquedaAbonados
 import ar.edu.telefonia.domain.Abonado
+import ar.edu.telefonia.domain.Llamada
 import java.util.List
 import javax.persistence.EntityManager
 import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 import javax.persistence.PersistenceException
+import javax.persistence.criteria.JoinType
 import javax.persistence.criteria.Predicate
 import org.hibernate.HibernateException
-import javax.persistence.criteria.JoinType
-import org.hibernate.criterion.DetachedCriteria
-import ar.edu.telefonia.domain.Llamada
-import org.hibernate.criterion.Subqueries
 
 class RepoTelefonia {
 
@@ -104,10 +102,19 @@ class RepoTelefonia {
 			if (busquedaAbonados.ingresoNombreHasta) {
 				condiciones.add(criteria.lessThan(from.get("nombre"), busquedaAbonados.nombreHasta))
 			}
+			/*
+			 * Consulta con Join de Abonados y facturas 
+			 * Busca los abonados que tienen una factura de un monto total exacto.
+			 */
 			if (busquedaAbonados.ingresoTotalExacto) {
 				val joinProducto = from.joinList("facturas", JoinType.LEFT)
 				condiciones.add(criteria.equal(joinProducto.get("total"), busquedaAbonados.total))
 			}
+			/*
+			 * Consulta con Exist y Subquery de Abonados y llamada
+			 * Filtra los abonados que tienen al menos una llamada de 
+			 * más de X minutos 
+			 */
 			if (busquedaAbonados.ingresoAlMenosMinimoDeMintos) {
  				val subQuery = query.subquery(typeof(Llamada))
  				val subRoot = subQuery.from(typeof(Llamada))
