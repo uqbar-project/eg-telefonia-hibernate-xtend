@@ -35,10 +35,10 @@ class RepoTelefonia {
 			val query = criteria.createQuery(entityType)
 			val from = query.from(entityType)
 			query.select(from)
-			var List<Predicate> condiciones = newArrayList
-			condiciones.add(criteria.like(from.get("nombre"), "%" + unAbonado.nombre + "%"))
-			condiciones.add(criteria.equal(from.get("numero"), unAbonado.numero))
-			query.where(condiciones)
+			query.where(newArrayList => [
+				add(criteria.like(from.get("nombre"), "%" + unAbonado.nombre + "%"))
+				add(criteria.equal(from.get("numero"), unAbonado.numero))
+			])
 			val lista = entityManager.createQuery(query).resultList
 			if (full) {
 				lista.forEach [ abonado |
@@ -95,7 +95,7 @@ class RepoTelefonia {
 			val query = criteria.createQuery(entityType)
 			val from = query.from(entityType)
 			query.select(from)
-			var List<Predicate> condiciones = newArrayList
+			val List<Predicate> condiciones = newArrayList
 			if (busquedaAbonados.ingresoNombreDesde) {
 				condiciones.add(criteria.greaterThan(from.get("nombre"), busquedaAbonados.nombreDesde))
 			}
