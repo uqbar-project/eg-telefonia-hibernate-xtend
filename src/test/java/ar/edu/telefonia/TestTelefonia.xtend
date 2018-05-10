@@ -6,12 +6,14 @@ import ar.edu.telefonia.domain.Factura
 import ar.edu.telefonia.domain.Llamada
 import ar.edu.telefonia.domain.Residencial
 import ar.edu.telefonia.domain.Rural
-import ar.edu.telefonia.home.RepoTelefonia
+import ar.edu.telefonia.repo.RepoTelefonia
 import java.time.LocalDate
 import org.hibernate.LazyInitializationException
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import ar.edu.telefonia.appModel.BusquedaAbonados
+import java.math.BigDecimal
 
 class TestTelefonia {
 
@@ -21,7 +23,7 @@ class TestTelefonia {
 	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
 
 	@Before
-	def init() {
+	def void init() {
 		homeTelefonia = RepoTelefonia.instance
 		
 		walterWhite = new Residencial()
@@ -62,7 +64,8 @@ class TestTelefonia {
 	}
 
 	def createIfNotExists(Abonado abonado) {
-		val existe = homeTelefonia.getAbonado(abonado) !== null
+		val reultados = homeTelefonia.searchByExample(abonado,true)
+		val existe = !reultados.isEmpty
 		if (!existe) {
 			homeTelefonia.actualizarAbonado(abonado)
 		}
@@ -92,6 +95,23 @@ class TestTelefonia {
 	def void walterWhiteCostoDeLlamada1() {
 		val walterWhiteBD = homeTelefonia.getAbonado(walterWhite, true)
 		Assert.assertEquals(20, walterWhiteBD.costo(llamada1), 0.1)
+	}
+	@Test
+	def void walterWhiteTieneUnaFacturaDe600Pesos(){
+		val busqueda = new BusquedaAbonados => [
+			total = new BigDecimal(600)
+		]
+		val abonados = homeTelefonia.getAbonados(busqueda)
+		Assert.assertEquals(walterWhite.id, abonados.head.id)
+		
+	}
+	@Test
+	def void walterWhiteTieneUnaLlamadaDeMasDe8Minutos(){
+		val busqueda = new BusquedaAbonados => [
+			minimoDeMinutos = 8
+		]
+		val abonados = homeTelefonia.getAbonados(busqueda)
+		Assert.assertEquals(walterWhite.id, abonados.head.id)		
 	}
 
 }

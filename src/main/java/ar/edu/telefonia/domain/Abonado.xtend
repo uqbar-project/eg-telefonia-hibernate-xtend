@@ -84,6 +84,7 @@ abstract class Abonado {
 }
 
 @Entity
+@Accessors
 @DiscriminatorValue("RS")
 class Residencial extends Abonado {
 
@@ -99,6 +100,8 @@ class Residencial extends Abonado {
 }
 
 @Entity
+@Accessors
+@Observable
 @DiscriminatorValue("RU")
 class Rural extends Abonado {
 
@@ -136,6 +139,7 @@ class Rural extends Abonado {
 }
 
 @Entity
+@Accessors
 @DiscriminatorValue("EM")
 class Empresa extends Abonado {
 
