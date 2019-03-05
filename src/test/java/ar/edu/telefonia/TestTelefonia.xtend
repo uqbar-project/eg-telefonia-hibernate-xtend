@@ -18,6 +18,7 @@ class TestTelefonia {
 
 	Abonado walterWhite
 	Abonado jessePinkman
+	Abonado ibm
 	RepoTelefonia homeTelefonia
 	Llamada llamada1 = new Llamada => [
 		origen = walterWhite
@@ -52,7 +53,7 @@ class TestTelefonia {
 			totalPagado = new BigDecimal(1200)
 		])
 
-		var Abonado ibm = new Empresa("30-50396126-8")
+		ibm = new Empresa("30-50396126-8")
 		ibm.nombre = "IBM"
 		ibm.numero = "47609272"
 
@@ -61,14 +62,14 @@ class TestTelefonia {
 		val existeWalterWhite = createIfNotExists(walterWhite)
 
 		jessePinkman = homeTelefonia.getAbonado(jessePinkman, true)
-		val ibmBD = homeTelefonia.getAbonado(ibm, true)
 		walterWhite = homeTelefonia.getAbonado(walterWhite, true)
+		ibm = homeTelefonia.getAbonado(ibm, true)
 
 		// El update lo tenemos que hacer por separado por las referencias circulares
 		if (!existeWalterWhite) {
 			var Llamada llamada2 = new Llamada => [
 				origen = walterWhite
-				destino = ibmBD
+				destino = ibm
 				duracion = 2
 			]
 			walterWhite.agregarLlamada(llamada1)
@@ -78,7 +79,7 @@ class TestTelefonia {
 
 		if (!existeIBM) {
 			ibm.agregarLlamada(new Llamada => [
-				origen = ibmBD
+				origen = ibm
 				destino = jessePinkman
 				duracion = 5
 			])
