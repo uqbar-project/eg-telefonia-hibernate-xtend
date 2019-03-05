@@ -88,7 +88,6 @@ class TestTelefonia {
 
 	def createIfNotExists(Abonado abonado) {
 		val existe = homeTelefonia.getAbonado(abonado) !== null
-		println("Get abonado: " + abonado.nombre + " - existe " + existe)
 		if (!existe) {
 			homeTelefonia.actualizarAbonado(abonado)
 		}

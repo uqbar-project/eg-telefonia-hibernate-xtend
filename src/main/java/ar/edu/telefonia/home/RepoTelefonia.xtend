@@ -51,7 +51,7 @@ class RepoTelefonia {
 			* 
 			*/
 			try {
-				val abonado = entityManager.createQuery(query).singleResult
+				val abonado = entityManager.createQuery(query).setMaxResults(1).singleResult
 				if (full) {
 					abonado.llamadas.size
 					abonado.facturas.size
