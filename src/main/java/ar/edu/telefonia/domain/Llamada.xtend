@@ -13,36 +13,15 @@ import org.uqbar.commons.model.annotations.Observable
 @Entity
 class Llamada {
 	@Id @GeneratedValue
-	private Long id
+	Long id
 	
 	@ManyToOne
-	private Abonado origen
+	Abonado origen
 	
 	@ManyToOne
-	private Abonado destino
+	Abonado destino
 	
 	@Column
-	private Integer duracion
-
-	/**
-	 * ***********************************************************
-	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
-	 *************************************************************
-	 */
-	new() {
-		
-	}
-	
-	/**
-	 * ***********************************************************
-	 *        FIN EXTRAS MANUALES QUE NECESITA HIBERNATE         *
-	 *************************************************************
-	 */
-	 
-	new(Abonado unOrigen, Abonado unDestino, Integer unaDuracion) {
-		origen = unOrigen
-		destino = unDestino
-		duracion = unaDuracion
-	}
+	Integer duracion
 
 }

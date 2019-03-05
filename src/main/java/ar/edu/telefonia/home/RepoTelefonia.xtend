@@ -11,7 +11,7 @@ import javax.persistence.PersistenceException
 
 class RepoTelefonia {
 
-	private static RepoTelefonia instance = null
+	static RepoTelefonia instance = null
 
 	private new() {
 	}
@@ -23,7 +23,7 @@ class RepoTelefonia {
 		instance
 	}
 
-	private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
+	static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
 
 	def getEntityManager() {
 		entityManagerFactory.createEntityManager

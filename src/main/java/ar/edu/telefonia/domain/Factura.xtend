@@ -6,43 +6,25 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.model.annotations.Observable
 
 @Observable
 @Entity
+@Accessors
 class Factura {
 
 	@Id @GeneratedValue
-	private Long id
+	Long id
 
 	@Column
-	private LocalDate fecha
+	LocalDate fecha
 
 	@Column
-	private BigDecimal totalPagado
+	BigDecimal totalPagado
 
 	@Column
-	private BigDecimal total
-
-	/**
-	 * ***********************************************************
-	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
-	 * ************************************************************
-	 */
-	/** Constructor que necesita Hibernate */
-	new() {
-	}
-
-	/**
-	 * ***********************************************************
-	 *        FIN EXTRAS MANUALES QUE NECESITA HIBERNATE         *
-	 * ************************************************************
-	 */
-	new(LocalDate _fecha, int _totalPagado, int _total) {
-		fecha = _fecha
-		totalPagado = new BigDecimal(_totalPagado)
-		total = new BigDecimal(_total)
-	}
+	BigDecimal total
 
 	def saldo() {
 		totalPagado.subtract(total)

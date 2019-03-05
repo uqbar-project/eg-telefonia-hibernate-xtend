@@ -7,6 +7,7 @@ import ar.edu.telefonia.domain.Llamada
 import ar.edu.telefonia.domain.Residencial
 import ar.edu.telefonia.domain.Rural
 import ar.edu.telefonia.home.RepoTelefonia
+import java.math.BigDecimal
 import java.time.LocalDate
 import org.hibernate.LazyInitializationException
 import org.junit.Assert
@@ -17,23 +18,39 @@ class TestTelefonia {
 
 	Abonado walterWhite
 	Abonado jessePinkman
-	RepoTelefonia homeTelefonia 
-	Llamada llamada1 = new Llamada(walterWhite, jessePinkman, 10)
+	RepoTelefonia homeTelefonia
+	Llamada llamada1 = new Llamada => [
+		origen = walterWhite
+		destino = jessePinkman
+		duracion = 10
+	]
 
 	@Before
 	def init() {
 		homeTelefonia = RepoTelefonia.instance
-		
+
 		walterWhite = new Residencial()
 		walterWhite.nombre = "Walter White"
 		walterWhite.numero = "46710080"
-		walterWhite.agregarFactura(new Factura(LocalDate.of(2009, 2, 10), 500, 240))
-		walterWhite.agregarFactura(new Factura(LocalDate.of(2011, 3, 8), 1200, 600))
+		walterWhite.agregarFactura(new Factura => [
+			fecha = LocalDate.of(2009, 2, 10)
+			total = new BigDecimal(500)
+			totalPagado = new BigDecimal(240)
+		])
+		walterWhite.agregarFactura(new Factura => [
+			fecha = LocalDate.of(2011, 3, 8)
+			total = new BigDecimal(1200)
+			totalPagado = new BigDecimal(600)
+		])
 
 		jessePinkman = new Rural(100)
 		jessePinkman.nombre = "Jesse Pinkman"
 		jessePinkman.numero = "45673887"
-		jessePinkman.agregarFactura(new Factura(LocalDate.of(2013, 6, 5), 1200, 1200))
+		jessePinkman.agregarFactura(new Factura => [
+			fecha = LocalDate.of(2013, 6, 5)
+			total = new BigDecimal(1200)
+			totalPagado = new BigDecimal(1200)
+		])
 
 		var Abonado ibm = new Empresa("30-50396126-8")
 		ibm.nombre = "IBM"
@@ -44,19 +61,27 @@ class TestTelefonia {
 		val existeWalterWhite = createIfNotExists(walterWhite)
 
 		jessePinkman = homeTelefonia.getAbonado(jessePinkman, true)
-		ibm = homeTelefonia.getAbonado(ibm, true)
+		val ibmBD = homeTelefonia.getAbonado(ibm, true)
 		walterWhite = homeTelefonia.getAbonado(walterWhite, true)
 
 		// El update lo tenemos que hacer por separado por las referencias circulares
 		if (!existeWalterWhite) {
-			var Llamada llamada2 = new Llamada(walterWhite, ibm, 2)
+			var Llamada llamada2 = new Llamada => [
+				origen = walterWhite
+				destino = ibmBD
+				duracion = 2
+			]
 			walterWhite.agregarLlamada(llamada1)
 			walterWhite.agregarLlamada(llamada2)
 			homeTelefonia.actualizarAbonado(walterWhite)
 		}
 
 		if (!existeIBM) {
-			ibm.agregarLlamada(new Llamada(ibm, jessePinkman, 5))
+			ibm.agregarLlamada(new Llamada => [
+				origen = ibmBD
+				destino = jessePinkman
+				duracion = 5
+			])
 			homeTelefonia.actualizarAbonado(ibm)
 		}
 	}
