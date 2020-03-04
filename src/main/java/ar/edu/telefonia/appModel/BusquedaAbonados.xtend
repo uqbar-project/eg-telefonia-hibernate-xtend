@@ -32,9 +32,11 @@ class BusquedaAbonados {
 	def ingresoAlMenosMinimoDeMintos(){
 		minimoDeMinutos !== null && !minimoDeMinutos.equals(0)
 	}
+
 	def ingresoTotalExacto(){
 		total !== null 
 	}
+
 	def ingresoNombreDesde() {
 		nombreDesde !== null && !nombreDesde.equals("")
 	}

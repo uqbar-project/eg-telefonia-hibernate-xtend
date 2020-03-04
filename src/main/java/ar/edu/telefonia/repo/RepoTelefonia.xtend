@@ -14,7 +14,12 @@ import org.hibernate.HibernateException
 
 class RepoTelefonia {
 
-	private static RepoTelefonia instance = null
+	/**
+	 *******************************************************************
+	 *  DEFINICION DE SINGLETON
+	 *******************************************************************
+	 */
+	static RepoTelefonia instance = null
 
 	private new() {
 	}
@@ -26,7 +31,13 @@ class RepoTelefonia {
 		instance
 	}
 
-	private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
+	/**
+	 *******************************************************************
+	 *  DEFINICION DE SINGLETON
+	 *******************************************************************
+	 */
+	 
+	static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Telefonia")
 
 	def searchByExample(Abonado unAbonado, boolean full) {
 		val entityManager = entityManagerFactory.createEntityManager

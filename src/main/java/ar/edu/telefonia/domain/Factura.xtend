@@ -16,41 +16,19 @@ class Factura {
 	// los getters y setters que se generan con @Property hay 
 	// que sobreescribirlos, por eso faltan las annotations
   	@Id	@GeneratedValue
-  	private Long id
+  	Long id
 	
 	@Column
-	private LocalDate fecha
+	LocalDate fecha
 	
 	@Column
-	private BigDecimal totalPagado
+	BigDecimal totalPagado
 	
 	@Column
-	private BigDecimal total
-
-	/**
-	 * ***********************************************************
-	 *      INICIO EXTRAS MANUALES QUE NECESITA HIBERNATE        *
-	 *************************************************************
-	 */
-
-	/** Constructor que necesita Hibernate */	
-	new() {
-	}
-	
-	/**
-	 * ***********************************************************
-	 *        FIN EXTRAS MANUALES QUE NECESITA HIBERNATE         *
-	 *************************************************************
-	 */
-	
-	new(LocalDate _fecha, int _totalPagado, int _total) {
-	  fecha = _fecha
-	  totalPagado = new BigDecimal(_totalPagado)
-	  total = new BigDecimal(_total)
-	}
+	BigDecimal total
 
 	def saldo() { 
-		totalPagado.subtract(total)
+		total.subtract(totalPagado)
 	}
 	
 }

@@ -1,3 +1,4 @@
+dist: trusty
 language: java
 
 service:
@@ -7,8 +8,8 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('laura') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-  - mysql --user=root --password=laura -e 'CREATE DATABASE IF NOT EXISTS telefonia;'
+  - echo "USE mysql;\nSET PASSWORD FOR root@localhost = PASSWORD('');\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - mysql --user=root 'CREATE DATABASE IF NOT EXISTS telefonia;'
 
 script:
   - mvn -e -DTRAVIS_JOB_ID=$TRAVIS_JOB_ID clean install jacoco:report coveralls:report

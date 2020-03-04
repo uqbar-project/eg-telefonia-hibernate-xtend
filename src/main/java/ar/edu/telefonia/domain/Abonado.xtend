@@ -23,13 +23,20 @@ import org.uqbar.commons.model.annotations.Observable
 @DiscriminatorColumn(name="TIPO_ABONADO", discriminatorType=DiscriminatorType.STRING)
 @Accessors
 abstract class Abonado {
-	@Id @GeneratedValue private Long id
-	@Column private String nombre
-	@Column private String numero
+	@Id @GeneratedValue
+	Long id
+	
+	@Column
+	String nombre
+	
+	@Column
+	String numero
+	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Factura> facturas
+	List<Factura> facturas
+	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Llamada> llamadas
+	List<Llamada> llamadas
 
 	/**
 	 * ***********************************************************
@@ -88,7 +95,7 @@ abstract class Abonado {
 @DiscriminatorValue("RS")
 class Residencial extends Abonado {
 
-	override def costo(Llamada llamada) {
+	override costo(Llamada llamada) {
 		2 * llamada.duracion
 	}
 
@@ -106,7 +113,7 @@ class Residencial extends Abonado {
 class Rural extends Abonado {
 
 	@Column
-	private Integer cantidadHectareas
+	Integer cantidadHectareas
 
 	/**
 	 * ***********************************************************
@@ -127,7 +134,7 @@ class Rural extends Abonado {
 		cantidadHectareas = unaCantidadHectareas
 	}
 
-	override def costo(Llamada llamada) {
+	override costo(Llamada llamada) {
 		3 * llamada.duracion.max(new Integer(5))
 	}
 
@@ -165,11 +172,11 @@ class Empresa extends Abonado {
 		cuit = unCuit
 	}
 
-	override def costo(Llamada llamada) {
+	override costo(Llamada llamada) {
 		1 * llamada.duracion.min(3)
 	}
 
-	override def esMoroso() {
+	override esMoroso() {
 		facturas.size > 3
 	}
 
