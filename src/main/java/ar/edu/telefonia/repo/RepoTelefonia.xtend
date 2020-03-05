@@ -127,8 +127,8 @@ class RepoTelefonia {
 			 * más de X minutos 
 			 */
 			if (busquedaAbonados.ingresoAlMenosMinimoDeMintos) {
- 				val subQuery = query.subquery(typeof(Llamada))
- 				val subRoot = subQuery.from(typeof(Llamada))
+ 				val subQuery = query.subquery(Llamada)
+ 				val subRoot = subQuery.from(Llamada)
 				subQuery.select(subRoot)
 				val project = from.join("llamadas");
 				val relationPredicate = criteria.equal(project, subRoot)
@@ -157,7 +157,7 @@ class RepoTelefonia {
 		}
 	}
 
-	def getEntityType() { typeof(Abonado) }
+	def getEntityType() { Abonado }
 
 	def eliminarAbonado(Abonado abonado) {
 		val EntityManager entityManager = entityManagerFactory.createEntityManager
