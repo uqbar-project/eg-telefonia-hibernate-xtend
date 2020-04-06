@@ -53,6 +53,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.19</version>
 		</dependency>
+		<!-- Dependencias para testear con una base relacional in memory -->
+        <!-- testing -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>test</scope>
+        </dependency>		
 	</dependencies>
 	<build>
 		<plugins>

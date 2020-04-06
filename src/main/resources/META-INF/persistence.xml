@@ -15,17 +15,19 @@
 		<class>ar.edu.telefonia.domain.Factura</class>
 		<class>ar.edu.telefonia.domain.Llamada</class>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url"	value="jdbc:mysql://localhost/telefonia?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
+            <property name="javax.persistence.jdbc.driver_class" value="org.h2.Driver"/>
+            			
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="" />
 
 			<!-- propiedades de hibernate -->
 			<property name="hibernate.dialect"
-				value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+ 					value="org.hibernate.dialect.H2Dialect"/>
+			
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
 
